@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tech.xavi.exchangeapi.configuration.ExchangeApiException;
-import tech.xavi.exchangeapi.dto.rest.ApiExceptionDto;
+import tech.xavi.exchangeapi.dto.rest.exception.ApiExceptionDto;
 import tech.xavi.exchangeapi.model.ExchangeError;
 
 import java.time.LocalDateTime;

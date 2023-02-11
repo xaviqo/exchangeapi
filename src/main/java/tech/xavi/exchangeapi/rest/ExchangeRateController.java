@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.xavi.exchangeapi.configuration.ExchangeApiException;
-import tech.xavi.exchangeapi.dto.rest.AllRatesFromCurrencyDto;
-import tech.xavi.exchangeapi.dto.rest.ExchangeRateFromCurrencyDto;
+import tech.xavi.exchangeapi.dto.rest.exrate.AllRatesDto;
+import tech.xavi.exchangeapi.dto.rest.exrate.ExchangeRateDto;
 import tech.xavi.exchangeapi.model.ExchangeError;
 import tech.xavi.exchangeapi.service.CurrencySymbolService;
 import tech.xavi.exchangeapi.service.ExchangeRateService;
@@ -23,7 +23,10 @@ public class ExchangeRateController {
     private final CurrencySymbolService currencySymbolService;
 
     @GetMapping("/ex-rate/{from:[a-zA-Z]{3}}/{to:[a-zA-Z]{3}}")
-    public ResponseEntity<ExchangeRateFromCurrencyDto> getOneExchangeFromCurrency(@PathVariable String from, @PathVariable String to){
+    public ResponseEntity<ExchangeRateDto> getOneExchangeFromCurrency(
+            @PathVariable String from,
+            @PathVariable String to)
+    {
         if (!currencySymbolService.isCurrencyAvailable(from,to))
             throw new ExchangeApiException(ExchangeError.INVALID_CURRENCY, HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(
@@ -35,12 +38,13 @@ public class ExchangeRateController {
     }
 
     @GetMapping("/ex-rate/{from:[a-zA-Z]{3}}")
-    public ResponseEntity<AllRatesFromCurrencyDto> getAllExchangeFromCurrency(@PathVariable String from){
+    public ResponseEntity<AllRatesDto> getAllExchangeFromCurrency(@PathVariable String from){
         if (!currencySymbolService.isCurrencyAvailable(from))
             throw new ExchangeApiException(ExchangeError.INVALID_CURRENCY, HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(
                 exchangeRateService.getAllRatesFromCurrency(from.toUpperCase())
         );
     }
+
 
 }

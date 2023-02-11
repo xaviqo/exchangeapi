@@ -3,9 +3,10 @@ package tech.xavi.exchangeapi.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
-import tech.xavi.exchangeapi.dto.rest.AllRatesFromCurrencyDto;
-import tech.xavi.exchangeapi.dto.rest.ExchangeRateFromCurrencyDto;
+import tech.xavi.exchangeapi.dto.rest.exrate.AllRatesDto;
+import tech.xavi.exchangeapi.dto.rest.exrate.ExchangeRateDto;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -15,19 +16,24 @@ public class ExchangeRateService implements ExchangeApiConstants {
     private final ExternalCallService callService;
     private final CurrencyOperationService operationService;
 
-    public ExchangeRateFromCurrencyDto getExchangeRateFromCurrency(String from, String to){
+    public ExchangeRateDto getExchangeRateFromCurrency(String from, String to){
         final Map<String,Double> rates = callService.getRequestedRates(from,to);
-        return ExchangeRateFromCurrencyDto.builder()
+        return ExchangeRateDto.builder()
                 .from(from)
                 .to(to)
-                .exchangeRate(operationService.calculateRateFromCurrency(rates.get(from),rates.get(to)))
+                .exchangeRate(operationService.rateFromCurrency(rates.get(from),rates.get(to)))
+                .baseCurrency(BASE_CURRENCY)
+                .date(LocalDateTime.now())
                 .build();
     }
 
-    public AllRatesFromCurrencyDto getAllRatesFromCurrency(String from){
-        return AllRatesFromCurrencyDto.builder()
+    public AllRatesDto getAllRatesFromCurrency(String from){
+        final Map<String,Double> rates = callService.getRequestedRates(ALL_RATES);
+        return AllRatesDto.builder()
                 .from(from)
-                .exchangeRates(operationService.calculateAllRatesFromCurrency(from))
+                .exchangeRates(operationService.allRatesFromCurrency(from,rates))
+                .baseCurrency(BASE_CURRENCY)
+                .date(LocalDateTime.now())
                 .build();
     }
 

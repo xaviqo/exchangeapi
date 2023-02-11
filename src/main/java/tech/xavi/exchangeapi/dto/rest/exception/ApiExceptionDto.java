@@ -1,4 +1,4 @@
-package tech.xavi.exchangeapi.dto.rest;
+package tech.xavi.exchangeapi.dto.rest.exception;
 
 import lombok.Builder;
 import lombok.Data;
