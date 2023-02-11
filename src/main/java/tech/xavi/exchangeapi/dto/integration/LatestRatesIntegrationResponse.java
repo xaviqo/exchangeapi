@@ -1,11 +1,13 @@
 package tech.xavi.exchangeapi.dto.integration;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 @Data
-public class ExternalExchangeApiResponse {
+@NoArgsConstructor
+public class LatestRatesIntegrationResponse {
 
     private String base;
     private boolean success;

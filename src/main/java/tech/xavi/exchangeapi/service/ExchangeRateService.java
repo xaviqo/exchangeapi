@@ -2,15 +2,13 @@ package tech.xavi.exchangeapi.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
 import tech.xavi.exchangeapi.dto.rest.AllRatesFromCurrencyDto;
 import tech.xavi.exchangeapi.dto.rest.ExchangeRateFromCurrencyDto;
 import tech.xavi.exchangeapi.integration.IntegrationCall;
+import tech.xavi.exchangeapi.mapper.ResponseMapper;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,6 +17,8 @@ import java.util.stream.Collectors;
 public class ExchangeRateService implements ExchangeApiConstants {
 
     private final IntegrationCall integrationCall;
+    private final CurrencySymbolService currencySymbolService;
+    private final ResponseMapper responseMapper;
 
     public ExchangeRateFromCurrencyDto getExchangeRateFromCurrency(String from, String to){
         final Map<String,Double> rates = getRequestedRates(from,to);
@@ -49,8 +49,9 @@ public class ExchangeRateService implements ExchangeApiConstants {
 
     private Map<String, Double> getRequestedRates(String... arrayOfRates) {
         return Arrays.asList(arrayOfRates).contains(ALL_RATES)
-                ? integrationCall.requestCurrentRates().getRates()
-                : integrationCall.requestCurrentRates().getRates().entrySet()
+                ? responseMapper.toLatestRates(integrationCall.callEndpoint(LATEST_RATES)).getRates()
+                : responseMapper.toLatestRates(integrationCall.callEndpoint(LATEST_RATES)).getRates()
+                .entrySet()
                 .stream()
                 .filter(rate -> Arrays.asList(arrayOfRates).contains(rate.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
