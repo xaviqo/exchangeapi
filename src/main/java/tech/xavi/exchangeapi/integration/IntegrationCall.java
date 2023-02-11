@@ -18,6 +18,7 @@ import java.util.concurrent.TimeoutException;
 public class IntegrationCall implements ExchangeApiConstants {
 
     private final WebClient webClient;
+
     public Map<String, Object> callEndpoint(String path){
 
         // TODO: Configure Webclient to only log when debug mode is enabled

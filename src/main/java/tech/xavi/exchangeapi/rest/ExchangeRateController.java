@@ -22,7 +22,7 @@ public class ExchangeRateController {
     private final ExchangeRateService exchangeRateService;
     private final CurrencySymbolService currencySymbolService;
 
-    @GetMapping("/ex-rate/{from}/{to}")
+    @GetMapping("/ex-rate/{from:[a-zA-Z]{3}}/{to:[a-zA-Z]{3}}")
     public ResponseEntity<ExchangeRateFromCurrencyDto> getOneExchangeFromCurrency(@PathVariable String from, @PathVariable String to){
         if (!currencySymbolService.isCurrencyAvailable(from,to))
             throw new ExchangeApiException(ExchangeError.INVALID_CURRENCY, HttpStatus.BAD_REQUEST);
@@ -34,7 +34,7 @@ public class ExchangeRateController {
         );
     }
 
-    @GetMapping("/ex-rate/{from}")
+    @GetMapping("/ex-rate/{from:[a-zA-Z]{3}}")
     public ResponseEntity<AllRatesFromCurrencyDto> getAllExchangeFromCurrency(@PathVariable String from){
         if (!currencySymbolService.isCurrencyAvailable(from))
             throw new ExchangeApiException(ExchangeError.INVALID_CURRENCY, HttpStatus.BAD_REQUEST);
