@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import tech.xavi.exchangeapi.configuration.ExchangeApiException;
-import tech.xavi.exchangeapi.dto.integration.AvailableSymbolsResponse;
-import tech.xavi.exchangeapi.dto.integration.LatestRatesIntegrationResponse;
+import tech.xavi.exchangeapi.dto.integration.AvailableSymbolsResponseDTO;
+import tech.xavi.exchangeapi.dto.integration.LatestRatesIntegrationResponseDTO;
 import tech.xavi.exchangeapi.model.ExchangeError;
 
 import java.time.Duration;
@@ -28,14 +28,14 @@ public class ExchangesRatesIntegration {
     private int timeout;
     private final WebClient webClient;
 
-    public LatestRatesIntegrationResponse getAllRates(){
+    public LatestRatesIntegrationResponseDTO getAllRates(){
 
         log.debug("An external API call for path '"+ratesUrl+"' has been made");
 
         return webClient.get()
                 .uri(ratesUrl)
                 .retrieve()
-                .bodyToMono(LatestRatesIntegrationResponse.class)
+                .bodyToMono(LatestRatesIntegrationResponseDTO.class)
                 .timeout(Duration.ofSeconds(timeout))
                 .doOnError(TimeoutException.class, timeout -> {
                     throw new ExchangeApiException(ExchangeError.INTEGRATION_TIMEOUT, HttpStatus.REQUEST_TIMEOUT);
@@ -43,24 +43,22 @@ public class ExchangesRatesIntegration {
                 .onErrorResume(TimeoutException.class, e -> Mono.empty())
                 .block();
 
-
     }
 
-    public AvailableSymbolsResponse getAllSymbols(){
+    public AvailableSymbolsResponseDTO getAllSymbols(){
 
         log.debug("An external API call for path '"+symbolsUrl+"' has been made");
 
         return webClient.get()
                 .uri(symbolsUrl)
                 .retrieve()
-                .bodyToMono(AvailableSymbolsResponse.class)
+                .bodyToMono(AvailableSymbolsResponseDTO.class)
                 .timeout(Duration.ofSeconds(timeout))
                 .doOnError(TimeoutException.class, timeout -> {
                     throw new ExchangeApiException(ExchangeError.INTEGRATION_TIMEOUT, HttpStatus.REQUEST_TIMEOUT);
                 })
                 .onErrorResume(TimeoutException.class, e -> Mono.empty())
                 .block();
-
 
     }
 }

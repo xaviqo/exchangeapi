@@ -28,6 +28,6 @@ public class ApiCachingConfiguration {
     }
     @Bean
     public Caffeine caffeineConfig() {
-        return Caffeine.newBuilder().expireAfterWrite(ttlMsCacheConfiguration, TimeUnit.MILLISECONDS);
+        return Caffeine.newBuilder().expireAfterAccess(ttlMsCacheConfiguration, TimeUnit.MILLISECONDS);
     }
 }

@@ -2,10 +2,13 @@ package tech.xavi.exchangeapi.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import tech.xavi.exchangeapi.configuration.ExchangeApiException;
 import tech.xavi.exchangeapi.dto.rest.valueconversion.MultipleValueConversionReqDTO;
 import tech.xavi.exchangeapi.dto.rest.valueconversion.MultipleValueConversionResDTO;
 import tech.xavi.exchangeapi.dto.rest.valueconversion.ValueConversionResDTO;
+import tech.xavi.exchangeapi.model.ExchangeError;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -23,6 +26,8 @@ public class ValueConversionService {
     public MultipleValueConversionResDTO getMultipleValueConversion(
             MultipleValueConversionReqDTO multipleValueConversionReq)
     {
+        if (multipleValueConversionReq.getTargetCurrencies().size() < 1)
+            throw new ExchangeApiException(ExchangeError.NO_CURRENCY_FOUND, HttpStatus.BAD_REQUEST);
 
         final Map<String,Double> targetRates = callService
                 .getRequestedRates()

@@ -11,7 +11,8 @@ public enum ExchangeError {
     METHOD_NOT_ALLOWED("Not allowed HTTP method",405),
     INTERNAL_SERVER_ERROR("Internal API Error",500),
     INVALID_CURRENCY("Invalid Currency",452),
-    INTEGRATION_TIMEOUT("External exchange API timeout exceeded",453)
+    INTEGRATION_TIMEOUT("External exchange API timeout exceeded",453),
+    NO_CURRENCY_FOUND("You must indicate at least one currency to be converted",454)
     ;
 
     private final String message;

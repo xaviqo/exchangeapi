@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class LatestRatesIntegrationResponse {
+public class LatestRatesIntegrationResponseDTO {
 
     private String base;
     private boolean success;

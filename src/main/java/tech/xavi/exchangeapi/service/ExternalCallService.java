@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tech.xavi.exchangeapi.configuration.ApiCachingConfiguration;
-import tech.xavi.exchangeapi.dto.integration.AvailableSymbolsResponse;
+import tech.xavi.exchangeapi.dto.integration.AvailableSymbolsResponseDTO;
 import tech.xavi.exchangeapi.integration.ExchangesRatesIntegration;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class ExternalCallService {
     private final ExchangesRatesIntegration exchangesRatesIntegration;
 
     @Cacheable(value = ApiCachingConfiguration.CACHE_NAME)
-    public AvailableSymbolsResponse availableCurrencies(){
+    public AvailableSymbolsResponseDTO availableCurrencies(){
         return exchangesRatesIntegration.getAllSymbols();
     }
 

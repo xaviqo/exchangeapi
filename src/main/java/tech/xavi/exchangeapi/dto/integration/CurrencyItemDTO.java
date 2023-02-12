@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class CurrencyItem {
+public class CurrencyItemDTO {
 
     private String code;
     private String description;

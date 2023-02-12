@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvailableSymbolsResponse {
+public class AvailableSymbolsResponseDTO {
 
-    private Map<String,CurrencyItem> symbols;
+    private Map<String, CurrencyItemDTO> symbols;
 }
