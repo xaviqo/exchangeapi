@@ -1,8 +1,8 @@
 package tech.xavi.exchangeapi.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
 import tech.xavi.exchangeapi.dto.rest.valueconversion.MultipleValueConversionReqDTO;
 import tech.xavi.exchangeapi.dto.rest.valueconversion.MultipleValueConversionResDTO;
 import tech.xavi.exchangeapi.dto.rest.valueconversion.ValueConversionResDTO;
@@ -12,19 +12,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
-public class ValueConversionService implements ExchangeApiConstants {
+@RequiredArgsConstructor
+public class ValueConversionService {
 
+    @Value("${api.cfg.base-currency}")
+    private String baseCurrency;
     private final ExternalCallService callService;
     private final CurrencyOperationService operationService;
 
     public MultipleValueConversionResDTO getMultipleValueConversion(
             MultipleValueConversionReqDTO multipleValueConversionReq)
     {
-        // TODO: Si no hace falta el fromCurrencyDate, refactorizar.
-        final Map<String,Double> allRates = callService.getRequestedRates(ALL_RATES);
-        //final Double fromCurrencyRate = allRates.get(multipleValueConversionReq.getFrom().toUpperCase());
-        final Map<String,Double> targetRates = allRates
+
+        final Map<String,Double> targetRates = callService
+                .getRequestedRates()
                 .entrySet()
                 .stream()
                 .filter(rate -> multipleValueConversionReq.getTargetCurrencies()
@@ -41,7 +42,7 @@ public class ValueConversionService implements ExchangeApiConstants {
                         operationService.multipleValueConversion(
                                 multipleValueConversionReq.getAmountTo(),
                                 targetRates))
-                .baseExchangeCurrency(BASE_CURRENCY)
+                .baseExchangeCurrency(baseCurrency)
                 .date(LocalDateTime.now())
                 .build();
     }
@@ -55,7 +56,7 @@ public class ValueConversionService implements ExchangeApiConstants {
                 .amountFrom(operationService.valueConversion(amountTo,exchangeRate))
                 .to(to)
                 .amountTo(amountTo)
-                .baseExchangeCurrency(BASE_CURRENCY)
+                .baseExchangeCurrency(baseCurrency)
                 .exchangeRate(exchangeRate)
                 .date(LocalDateTime.now())
                 .build();

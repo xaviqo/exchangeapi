@@ -2,13 +2,12 @@ package tech.xavi.exchangeapi.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
 
 import java.util.Map;
 
 @Service
 @AllArgsConstructor
-public class CurrencyOperationService implements ExchangeApiConstants {
+public class CurrencyOperationService {
 
     public Map<String,Double> multipleValueConversion(Double amountTo, Map<String,Double> rates){
         rates.replaceAll((code,rate) -> valueConversion(amountTo,rate));

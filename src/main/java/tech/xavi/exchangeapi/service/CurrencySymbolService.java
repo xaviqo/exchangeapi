@@ -2,14 +2,13 @@ package tech.xavi.exchangeapi.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 @AllArgsConstructor
-public class CurrencySymbolService implements ExchangeApiConstants {
+public class CurrencySymbolService {
 
     private final ExternalCallService callService;
 
