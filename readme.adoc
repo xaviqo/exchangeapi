@@ -21,15 +21,12 @@ API (https://exchangerate.host/) and uses them for conversion calculations
 * Type in your terminal:
 
 [source]
-====
 git clone https://github.com/xaviqo/exchangeapi.git
-====
 
 * Launch the following command form the project root directory:
+
 [source]
-====
 mvn spring-boot:run
-====
 
 == Available endpoints
 
