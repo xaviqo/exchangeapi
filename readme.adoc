@@ -1,0 +1,94 @@
+= ExchangeAPI ReadMe
+:doctype: article
+:author: Xavier Quiñones
+:email: mail@xavi.tech
+:revnumber: v1
+:revdate: 2023-02-12
+:repository-url: https://github.com/xaviqo/exchangeapi
+:documentation-url: https://github.com/xaviqo/exchangeapi/readme.adoc
+:rouge-style: github
+:!showtitle:
+:icons: font
+:toc: preamble
+
+== About the project
+
+API that fetches exchange-rates a publicly available
+API (https://exchangerate.host/) and uses them for conversion calculations
+
+== Run the application
+
+* Type in your terminal:
+
+[source]
+====
+git clone https://github.com/xaviqo/exchangeapi.git
+====
+
+* Launch the following command form the project root directory:
+[source]
+====
+mvn spring-boot:run
+====
+
+== Available endpoints
+
+* [GET] Get exchange rate from Currency A to Currency B:
+
+====
+/v1/exchange-rate/*currency_a*/*currency_b*
+====
+
+* [GET] Get all exchange rates from Currency A:
+
+====
+/v1/all-rates/*currency_a*
+====
+
+* [GET] Get value conversion from Currency A to Currency B:
+
+====
+/v1/value-conversion/*currency_a*/*currency_b*/*amount*
+====
+
+* [POST] Get value conversion from Currency A to a list of supplied currencies:
+
+====
+/v1/multiple-values-conversion
+====
+
+_Example payload_:
+
+[source,JSON]
+{
+"from":"EUR",
+"amountTo":10,
+"targetCurrencies":["GBP","HRK","MXN"]
+}
+
+* [GET] Application health check:
+
+====
+/v1/health-check
+====
+
+=== *Test API with Swagger*:
+
+====
+http://localhost:8080/swagger-ui/index.html
+====
+
+== Configurable parameters
+
+In the application.properties file there are some parameters that can be adjusted
+
+* *exchange-rate.host.time-out-sec*: Threshold for external API response
+* *exchange-rate.host.base*: Base URL of the external API
+* *exchange-rate.host.end-point.rates*: Endpoint path to get the latest exchange rates
+* *exchange-rate.host.end-point.symbols*: Endpoint path to obtain the available currency codes
+* *api.cfg.base-currency*: ISO code of the currency that we will use for the conversion of values and for integration calls
+* *api.cfg.cache.ttl-ms*: Time to live in milliseconds of the cached data
+
+
+
+
