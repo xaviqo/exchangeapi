@@ -26,6 +26,8 @@ public class ExchangesRatesIntegration {
     private String symbolsUrl;
     @Value("${exchange-rate.host.time-out-sec}")
     private int timeout;
+    @Value("${api.cfg.base-currency}")
+    private String baseCurrency;
     private final WebClient webClient;
 
     public LatestRatesIntegrationResponseDTO getAllRates(){
@@ -33,7 +35,11 @@ public class ExchangesRatesIntegration {
         log.debug("An external API call for path '"+ratesUrl+"' has been made");
 
         return webClient.get()
-                .uri(ratesUrl)
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path(ratesUrl)
+                                .queryParam("base",baseCurrency)
+                                .build())
                 .retrieve()
                 .bodyToMono(LatestRatesIntegrationResponseDTO.class)
                 .timeout(Duration.ofSeconds(timeout))
@@ -50,7 +56,11 @@ public class ExchangesRatesIntegration {
         log.debug("An external API call for path '"+symbolsUrl+"' has been made");
 
         return webClient.get()
-                .uri(symbolsUrl)
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path(symbolsUrl)
+                                .queryParam("base",baseCurrency)
+                                .build())
                 .retrieve()
                 .bodyToMono(AvailableSymbolsResponseDTO.class)
                 .timeout(Duration.ofSeconds(timeout))

@@ -32,8 +32,10 @@ class CurrencyOperationServiceTest {
         expectedResults.put("MXN", 1993.4);
         expectedResults.put("EUR", 100.0);
 
+        Double desiredAmount = 100.0;
+
         // WHEN
-        Map<String,Double> result = operationService.multipleValueConversion(100.0,rates);
+        Map<String,Double> result = operationService.multipleValueConversion(desiredAmount,rates);
 
         // THEN
         assertEquals(expectedResults,result);
