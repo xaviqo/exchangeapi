@@ -8,4 +8,8 @@ public interface ExchangeApiConstants {
     String BASE_CURRENCY = "EUR";
     int EXTERNAL_API_TIMEOUT = 10;
     String ALL_RATES = "ALL_RATES";
+    String API_CACHE_NAME = "exchange_api";
+    String CACHE_KEY_ISO_CURRENCY = "iso_currency_cache";
+    String CACHE_KEY_EX_RATES = "ex_rates_cache";
+    long CACHE_TTL_MS = 60000;
 }

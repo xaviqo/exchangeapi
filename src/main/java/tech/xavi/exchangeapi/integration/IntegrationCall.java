@@ -12,6 +12,7 @@ import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
 import tech.xavi.exchangeapi.model.ExchangeError;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
@@ -24,7 +25,7 @@ public class IntegrationCall implements ExchangeApiConstants {
 
     public Map<String, Object> callEndpoint(String path){
 
-        // TODO: Configure Webclient to only log when debug mode is enabled
+        log.debug("An external API call for path '/"+path+"' has been made @ "+ LocalDateTime.now());
 
         return webClient.get()
                 .uri(path)
@@ -36,6 +37,7 @@ public class IntegrationCall implements ExchangeApiConstants {
                 })
                 .onErrorResume(TimeoutException.class, e -> Mono.empty())
                 .block();
+
 
     }
 }

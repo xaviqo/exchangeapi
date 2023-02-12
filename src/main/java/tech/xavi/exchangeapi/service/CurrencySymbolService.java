@@ -3,9 +3,6 @@ package tech.xavi.exchangeapi.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tech.xavi.exchangeapi.constants.ExchangeApiConstants;
-import tech.xavi.exchangeapi.dto.integration.AvailableSymbolsResponse;
-import tech.xavi.exchangeapi.integration.IntegrationCall;
-import tech.xavi.exchangeapi.mapper.ResponseMapper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class CurrencySymbolService implements ExchangeApiConstants {
 
-    private final IntegrationCall integrationCall;
-    private final ResponseMapper responseMapper;
+    private final ExternalCallService callService;
 
     public boolean isCurrencyAvailable(String... requestedCurrencies){
         final Set<String> isoCodes = getAllIsoCodes();
@@ -27,15 +23,11 @@ public class CurrencySymbolService implements ExchangeApiConstants {
 
     private Set<String> getAllIsoCodes(){
         final Set<String> allSymbols = new HashSet<>();
-        availableCurrencies().getSymbols().forEach( (iso, currencyItem) -> {
+        callService.availableCurrencies().getSymbols().forEach( (iso, currencyItem) -> {
             allSymbols.add(iso);
         });
         return allSymbols;
     }
 
-    private AvailableSymbolsResponse availableCurrencies(){
-        return responseMapper.toAvailableSymbols(
-                integrationCall.callEndpoint(SUPPORTED_SYMBOLS)
-        );
-    }
+
 }
