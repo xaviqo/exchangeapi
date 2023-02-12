@@ -10,17 +10,22 @@ import java.util.Map;
 @AllArgsConstructor
 public class CurrencyOperationService implements ExchangeApiConstants {
 
-    public Double valueConversion(Double amountFrom, Double exRate){
-        return amountFrom*exRate;
+    public Map<String,Double> multipleValueConversion(Double amountTo, Map<String,Double> rates){
+        rates.replaceAll((code,rate) -> valueConversion(amountTo,rate));
+        return rates;
+    }
+
+    public Double valueConversion(Double amountTo, Double exRate){
+        return amountTo*exRate;
     }
 
     public Map<String,Double> allRatesFromCurrency(String from, Map<String,Double> rates){
         final Double baseCurrency = rates.get(from);
-        rates.replaceAll((code,rate) -> rateFromCurrency(rate,baseCurrency));
+        rates.replaceAll((code,rate) -> rate/baseCurrency);
         return rates;
     }
 
     public Double rateFromCurrency(Double from, Double to){
-        return from/to;
+        return to/from;
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ApiExceptionDto {
+public class ApiExceptionDTO {
 
     private String errorString;
     private int errorCode;

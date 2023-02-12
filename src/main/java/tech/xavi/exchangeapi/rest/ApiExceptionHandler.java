@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tech.xavi.exchangeapi.configuration.ExchangeApiException;
-import tech.xavi.exchangeapi.dto.rest.exception.ApiExceptionDto;
+import tech.xavi.exchangeapi.dto.rest.exception.ApiExceptionDTO;
 import tech.xavi.exchangeapi.model.ExchangeError;
 
 import java.time.LocalDateTime;
@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
 public class ApiExceptionHandler{
 
     @ExceptionHandler(ExchangeApiException.class)
-    public ResponseEntity<ApiExceptionDto> handleApiException(ExchangeApiException exception){
+    public ResponseEntity<ApiExceptionDTO> handleApiException(ExchangeApiException exception){
         return new ResponseEntity<>(
-                ApiExceptionDto
+                ApiExceptionDTO
                         .builder()
                         .errorCode(exception.getExchangeApiError().getErrorCode())
                         .errorString(exception.getExchangeApiError().name())
@@ -34,9 +34,9 @@ public class ApiExceptionHandler{
     @ExceptionHandler({
             HttpRequestMethodNotSupportedException.class,
     })
-    public ResponseEntity<ApiExceptionDto> methodNotAllowedException(){
+    public ResponseEntity<ApiExceptionDTO> methodNotAllowedException(){
         return new ResponseEntity<>(
-                ApiExceptionDto
+                ApiExceptionDTO
                         .builder()
                         .errorCode(ExchangeError.METHOD_NOT_ALLOWED.getErrorCode())
                         .errorString(ExchangeError.METHOD_NOT_ALLOWED.name())
@@ -51,9 +51,9 @@ public class ApiExceptionHandler{
             HttpMediaTypeNotSupportedException.class,
             HttpMessageNotReadableException.class,
     })
-    public ResponseEntity<ApiExceptionDto> messageNotReadableException(){
+    public ResponseEntity<ApiExceptionDTO> messageNotReadableException(){
         return new ResponseEntity<>(
-                ApiExceptionDto
+                ApiExceptionDTO
                         .builder()
                         .errorCode(ExchangeError.BAD_REQUEST.getErrorCode())
                         .errorString(ExchangeError.BAD_REQUEST.name())

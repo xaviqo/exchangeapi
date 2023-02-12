@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ExchangeRateDto {
+public class ExchangeRateResDTO {
 
     private String from;
     private String to;
     private Double exchangeRate;
-    private String baseCurrency;
+    private String baseExchangeCurrency;
     private LocalDateTime date;
 
 }

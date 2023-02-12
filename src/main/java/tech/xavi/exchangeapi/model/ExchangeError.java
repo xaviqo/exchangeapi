@@ -8,9 +8,10 @@ import lombok.Getter;
 public enum ExchangeError {
 
     BAD_REQUEST("Incorrect or non-processable data",400),
-    METHOD_NOT_ALLOWED("Unauthorized HTTP method",405),
+    METHOD_NOT_ALLOWED("Not allowed HTTP method",405),
     INTERNAL_SERVER_ERROR("Internal API Error",500),
-    INVALID_CURRENCY("Invalid Currency",452)
+    INVALID_CURRENCY("Invalid Currency",452),
+    INTEGRATION_TIMEOUT("External exchange API timeout exceeded",453)
     ;
 
     private final String message;

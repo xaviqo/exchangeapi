@@ -8,11 +8,11 @@ import java.util.Map;
 
 @Data
 @Builder
-public class AllRatesDto {
+public class AllRatesResDTO {
 
     private String from;
     private Map<String,Double> exchangeRates;
-    private String baseCurrency;
+    private String baseExchangeCurrency;
     private LocalDateTime date;
 
 }
